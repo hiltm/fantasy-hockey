@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Fantasy Hockey Tracker</title>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab-button" onclick="openTab(event, 'schedule')">Schedule</button>
+        <button class="tab-button" onclick="openTab(event, 'playerstats')">Player Stats</button>
+        <button class="tab-button" onclick="openTab(event, 'teamsetup')">Team Setup</button>
+        <!-- Add other tab buttons here -->
+    </div>
+
+    <div id="schedule" class="tab-content">
+        <label for="weekSelector">Select Week:</label>
+        <select id="weekSelector" onchange="loadSchedule()">
+            <option value="1">Week 1</option>
+            <option value="2">Week 2</option>
+            <!-- Add more week options here -->
+        </select>
+
+        <div id="scheduleTable" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th> <!-- Empty header cell for player names column -->
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <!-- Schedule data will be filled dynamically here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="playerStats" class="tab-content">
+        <h2>Player Statistics</h2>
+        <p>Enter ESPN Player ID to view player stats:</p>
+        <input type="text" id="playerId">
+        <button onclick="fetchPlayerStats()">Fetch Player Stats</button>
+
+        <div id="statsContainer" style="display: none;">
+            <h3>Player Stats</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stat</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody id="statsBody">
+                    <!-- Player stats will be populated dynamically here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="teamsetup" class="tab-content">
+        <h2>Team Setup</h2>
+        <p>Enter ESPN Player IDs to set up your team:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Line</th>
+                    <th>Player ID</th>
+                    <th>Player Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Line 1</td>
+                    <td><input type="text" id="playerId1"></td>
+                    <td><span id="playerName1"></span></td>
+                </tr>
+                <tr>
+                    <td>Line 2</td>
+                    <td><input type="text" id="playerId2"></td>
+                    <td><span id="playerName2"></span></td>
+                </tr>
+                <!-- Add more lines as needed -->
+            </tbody>
+        </table>
+        
+        <button onclick="updatePlayerNames()">Update Player Names</button>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabContent, tabButtons;
+            
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            
+            tabButtons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function loadSchedule() {
+            const weekSelector = document.getElementById("weekSelector");
+            const selectedWeek = weekSelector.value;
+
+            // You would need to fetch your schedule data here based on the selected week.
+            // Replace this with your actual data fetching logic.
+            const scheduleData = [
+                // Example data format:
+                { player: "Player A", schedule: ["Mon", "Wed", "Sat"] },
+                { player: "Player B", schedule: ["Tue", "Fri", "Sat"] },
+                // ... add more player schedule data
+            ];
+
+            const scheduleTable = document.getElementById("scheduleTable");
+            const scheduleBody = document.getElementById("scheduleBody");
+
+            // Clear previous data
+            scheduleBody.innerHTML = "";
+
+            // Build the schedule table
+            scheduleData.forEach(player => {
+                const row = document.createElement("tr");
+                const playerNameCell = document.createElement("td");
+                playerNameCell.textContent = player.player;
+                row.appendChild(playerNameCell);
+
+                const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                daysOfWeek.forEach(day => {
+                    const dayCell = document.createElement("td");
+                    dayCell.textContent = player.schedule.includes(day) ? "X" : "";
+                    row.appendChild(dayCell);
+                });
+
+                scheduleBody.appendChild(row);
+            });
+
+            scheduleTable.style.display = "block";
+        }
+
+        function fetchPlayerStats() {
+            const playerId = document.getElementById("playerId").value;
+
+            // Simulate fetching player stats from ESPN API
+            // Replace this with your actual API fetching logic
+            const playerStats = {
+                GamesPlayed: 60,
+                Goals: 15,
+                Assists: 25,
+                PlusMinus: 8,
+                Points: 40,
+                FantasyPoints: 65.2,
+            };
+
+            const statsContainer = document.getElementById("statsContainer");
+            const statsBody = document.getElementById("statsBody");
+
+            // Clear previous data
+            statsBody.innerHTML = "";
+
+            // Build player stats table
+            for (const stat in playerStats) {
+                const row = document.createElement("tr");
+                const statCell = document.createElement("td");
+                const valueCell = document.createElement("td");
+
+                statCell.textContent = stat;
+                valueCell.textContent = playerStats[stat];
+
+                row.appendChild(statCell);
+                row.appendChild(valueCell);
+                statsBody.appendChild(row);
+            }
+
+            statsContainer.style.display = "block";
+        }
+
+        function updatePlayerNames() {
+            const playerId1 = document.getElementById("playerId1").value;
+            const playerId2 = document.getElementById("playerId2").value;
+            // Get more player IDs as needed
+
+            // Simulate fetching player names from ESPN based on the IDs
+            // Replace this with your actual data fetching logic
+            const playerNames = {
+                [playerId1]: "Player A",
+                [playerId2]: "Player B",
+                // Add more player names
+            };
+
+            document.getElementById("playerName1").textContent = playerNames[playerId1] || "N/A";
+            document.getElementById("playerName2").textContent = playerNames[playerId2] || "N/A";
+            // Update more player names as needed
+        }
+    </script>
+</body>
+</html>
