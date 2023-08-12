@@ -183,7 +183,7 @@ function PlayerPickupComponent() {
 
     const getData = async (x) => {
       const res = axios.get(
-        `https://statsapi.web.nhl.com/api/v1/people/${x}/stats?stats=statsSingleSeason&season=20202021`
+        `https://statsapi.web.nhl.com/api/v1/people/${x}/stats?stats=statsSingleSeason&season=20222023`
       );
       return res;
     };
@@ -216,7 +216,7 @@ function PlayerPickupComponent() {
 
     const getData = async (x) => {
       const res = axios.get(
-        `https://statsapi.web.nhl.com/api/v1/people/${x}/stats?stats=statsSingleSeason&season=20202021`
+        `https://statsapi.web.nhl.com/api/v1/people/${x}/stats?stats=statsSingleSeason&season=20222023`
       );
       return res;
     };
