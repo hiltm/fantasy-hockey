@@ -1,0 +1,12 @@
+.tableContainer{
+    background: rgb(159, 159, 255);
+
+    .columnNames{
+        padding: 8px;
+        text-align: center;
+
+        .columnName{
+            border: solid, black, 2px;
+        }
+    }
+}
